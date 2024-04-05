@@ -10,10 +10,17 @@ module "api_gateway" {
 
   method_details = {
     http_method   = "GET"
-    authorization = "NONE"  # or "CUSTOM" if using a custom authorizer
+    authorization = "CUSTOM"  # or "CUSTOM" if using a custom authorizer
   }
 
   # Include `authorizer_config` if you're using a custom authorizer
+  authorizer_config = {
+    name = "authorizer-from-module"
+    type = "REQUEST"
+    lambda_function_arn = "arn:aws:lambda:us-east-1:082185593297:function:gateway_auth"
+    authorizer_credentials = "arn:aws:iam::082185593297:role/apgw_role"
+    identity_source = "header.id_value"
+  }
 
   integration_config = {
     type                     = "AWS"
