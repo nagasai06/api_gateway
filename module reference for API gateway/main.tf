@@ -1,5 +1,5 @@
 module "api_gateway" {
-  source = "D:\\INfra Engineering2\\API Gateway modules" # Update this to the path where your module is stored
+  source = "D:\\INfra Engineering2\\API Gateway modules" 
 
   api_gateway_details = {
     name        = "ModuleTestWithoutAuth"
@@ -10,15 +10,15 @@ module "api_gateway" {
 
   method_details = {
     http_method   = "GET"
-    authorization = "CUSTOM"  # or "CUSTOM" if using a custom authorizer
+    authorization = "CUSTOM" 
   }
 
   # Include `authorizer_config` if you're using a custom authorizer
   authorizer_config = {
     name = "authorizer-from-module"
     type = "REQUEST"
-    lambda_function_arn = "arn:aws:lambda:us-east-1:082185593297:function:gateway_auth"
-    authorizer_credentials = "arn:aws:iam::082185593297:role/apgw_role"
+    lambda_function_arn = "arn:aws:lambda:us-east-1:${Account_ID}:function:gateway_auth"
+    authorizer_credentials = "arn:aws:iam::${Account_ID}:role/apgw_role"
     identity_source = "header.id_value"
   }
 
@@ -27,7 +27,7 @@ module "api_gateway" {
     http_method = "GET"
     integration_http_method  = "GET"
     uri                      = "arn:aws:apigateway:us-east-1:s3:path/accesstestone/{objectKey}"
-    credentials              = "arn:aws:iam::082185593297:role/apgw_role"
+    credentials              = "arn:aws:iam::${Account_ID}:role/apgw_role"
     timeout_milliseconds     = 29000
   }
 
